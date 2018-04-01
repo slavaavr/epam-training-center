@@ -1,4 +1,4 @@
-package main.ava.task1;
+package ava.task1;
 
 
 import java.time.LocalDate;
