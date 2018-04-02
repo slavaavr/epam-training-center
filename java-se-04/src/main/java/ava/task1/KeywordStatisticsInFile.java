@@ -1,8 +1,6 @@
 package ava.task1;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +36,18 @@ public class KeywordStatisticsInFile {
                     keywordCount.addCount(countSubstringWithinString(string, keywordCount.getKeyword()));
                 }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printStatisticIntoTheFile(Path path){
+        StringBuilder builder = new StringBuilder();
+        for (KeywordCount keywordCount : keywordCountList) {
+            builder.append(keywordCount.getKeyword()).append(" ").append(keywordCount.count).append("\n");
+        }
+        try(BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(path.toString()))){
+            bw.write(builder.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
