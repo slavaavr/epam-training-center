@@ -37,6 +37,18 @@ public class KeywordStatisticsInFile {
         }
     }
 
+    public void printStatisticIntoTheFile(Path path) {
+        StringBuilder builder = new StringBuilder();
+        for (ava.task1.KeywordStatisticsInFile.KeywordCount keywordCount : keywordCountList) {
+            builder.append(keywordCount.getKeyword()).append(" ").append(keywordCount.getCount()).append("\n");
+        }
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path.toString()))) {
+            bw.write(builder.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initKeywordCountList(String words) {
         String[] strings = words.split("\n");
         for (String string : strings) {
