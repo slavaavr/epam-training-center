@@ -9,5 +9,6 @@ public class Main {
         for (KeywordStatisticsInFile.KeywordCount keywordCount : statistics.getKeywordCountList()) {
             System.out.printf("%s = %s\n", keywordCount.getKeyword(), keywordCount.getCount());
         }
+        statistics.printStatisticIntoTheFile(Paths.get("java-se-04/src/main/java/ava/task1/out"));
     }
 }
