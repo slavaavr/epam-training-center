@@ -6,7 +6,7 @@ public class PathNotExistException extends RuntimeException {
         super("The specified path does not exist!");
     }
 
-    public PathNotExistException(String message) {
-        super(message);
+    public PathNotExistException(String path) {
+        super(String.format("Cannot find path '%s' because it does not exist!", path));
     }
 }
