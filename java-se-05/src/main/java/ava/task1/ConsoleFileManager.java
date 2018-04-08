@@ -5,16 +5,19 @@ import ava.task1.exception.CantCreateFileException;
 import ava.task1.exception.PathNotExistException;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ConsoleFileManager {
 
-    public static final String PATH_TO_MANUAL = "java-se-05/src/main/java/ava/task1/help";
+    private static final String PATH_TO_MANUAL = "java-se-05/src/main/java/ava/task1/help";
 
     private File currentState;
 
@@ -25,15 +28,8 @@ public class ConsoleFileManager {
     public ConsoleFileManager(String path) {
         this.currentState = new File(path);
         if (!this.currentState.exists() || this.currentState.isFile()) {
-            throw new PathNotExistException(String.format("Cannot find path '%s' because it does not exist!", path));
+            throw new PathNotExistException(path);
         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        ConsoleFileManager fileManager = new ConsoleFileManager("C:/");
-        System.out.println(fileManager.climbToFolderAbove());
-//        System.out.println(fileManager.currentState.getAbsoluteFile().getParentFile().getCanonicalPath());
-
     }
 
     public String climbToFolderAbove() {
@@ -43,29 +39,21 @@ public class ConsoleFileManager {
 
     public String goToFolder(String path) {
         File file;
-        if(Paths.get(path).isAbsolute()){
-            file = new File(path);
-        } else {
-            file = new File(String.format("%s/%s", getCurrentPath(), path));
-        }
+        file = getFileDependsOnPath(path);
         if (!file.exists() || file.isFile()) {
-            throw new PathNotExistException(String.format("Cannot find path '%s' because it does not exist!", path));
+            throw new PathNotExistException(path);
         }
         this.currentState = file;
         return getCurrentPath();
     }
 
     public String getListOfFiles() {
-        return Arrays.stream(this.currentState.list()).collect(Collectors.joining("\n"));
+        return Arrays.stream(this.currentState.list()).collect(Collectors.joining(System.lineSeparator()));
     }
 
     public boolean createFile(String fileName) {
         File file;
-        if(Paths.get(fileName).isAbsolute()){
-            file = new File(fileName);
-        } else {
-            file = new File(String.format("%s/%s", getCurrentPath(), fileName));
-        }
+        file = getFileDependsOnPath(fileName);
         try {
             return file.createNewFile();
         } catch (IOException e) {
@@ -75,23 +63,57 @@ public class ConsoleFileManager {
 
     public boolean removeFile(String fileName) {
         File file;
-        if(Paths.get(fileName).isAbsolute()){
-            file = new File(fileName);
-        } else {
-            file = new File(String.format("%s/%s", getCurrentPath(), fileName));
-        }
+        file = getFileDependsOnPath(fileName);
         if (!file.exists()) {
-            throw new PathNotExistException(String.format("Cannot find path '%s' because it does not exist!", fileName));
+            throw new PathNotExistException(fileName);
         }
         return file.delete();
     }
 
+    public void writeToFile(String fileName, String msg, boolean append) {
+        msg = msg.concat(System.lineSeparator());
+        File file;
+        file = getFileDependsOnPath(fileName);
+        if (!file.exists() || !file.isFile()) {
+            throw new PathNotExistException(fileName);
+        }
+        try {
+            if (append) {
+                Files.write(Paths.get(file.toURI()), msg.getBytes(), StandardOpenOption.APPEND);
+            } else {
+                Files.write(Paths.get(file.toURI()), msg.getBytes());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
+    public String printFile(String fileName) {
+        File file;
+        file = getFileDependsOnPath(fileName);
+        if (!file.exists() || !file.isFile()) {
+            throw new PathNotExistException(fileName);
+        }
+        try {
+            return new String(Files.readAllBytes(Paths.get(file.toURI())));
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     private String getCurrentPath() {
         return this.currentState.getAbsolutePath();
     }
 
+    private File getFileDependsOnPath(String path) {
+        File file;
+        if (Paths.get(path).isAbsolute()) {
+            file = new File(path);
+        } else {
+            file = new File(String.format("%s/%s", getCurrentPath(), path));
+        }
+        return file;
+    }
 
     public String getHelp() {
         String helpInfo = "";
