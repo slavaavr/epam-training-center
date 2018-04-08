@@ -1,0 +1,10 @@
+Команды:
+cd .. - подняться в папку выше
+cd path/ - перейти в папку
+ls - вывести список файлов
+touch filename - создать файл
+rm filename - удалить файл
+filename --append  "data"- дописать в файл данные
+filename --rewrite  "data"- перезаписать в файл данные
+print filename - печать данных
+exit - завершить программу
