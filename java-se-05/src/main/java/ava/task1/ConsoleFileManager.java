@@ -101,7 +101,7 @@ public class ConsoleFileManager {
         }
     }
 
-    private String getCurrentPath() {
+    public String getCurrentPath() {
         return this.currentState.getAbsolutePath();
     }
 
@@ -118,7 +118,7 @@ public class ConsoleFileManager {
     public String getHelp() {
         String helpInfo = "";
         try {
-            helpInfo = Files.lines(Paths.get(PATH_TO_MANUAL)).collect(Collectors.joining());
+            helpInfo = Files.lines(Paths.get(PATH_TO_MANUAL)).collect(Collectors.joining(System.lineSeparator()));
         } catch (IOException e) {
             e.printStackTrace();
         }
