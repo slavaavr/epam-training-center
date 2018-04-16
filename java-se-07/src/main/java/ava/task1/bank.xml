@@ -3,7 +3,7 @@
     <accounts>
         <account>
             <id>1</id>
-            <holdeer>John Doe</holdeer>
+            <holder>John Doe</holder>
             <initial-money>100</initial-money>
         </account>
         <account>
