@@ -2,7 +2,7 @@ package ava.task1;
 
 import java.math.BigDecimal;
 
-public class Account {
+public class Account implements Comparable<Account> {
     private int id;
     private String holder;
     private BigDecimal money;
@@ -13,12 +13,8 @@ public class Account {
         this.money = money;
     }
 
-    public int getId() {
+    private int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getHolder() {
@@ -35,5 +31,14 @@ public class Account {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    @Override
+    public int compareTo(Account o) {
+        if(this.getId() > o.getId())
+            return 1;
+        else if(this.getId() < o.getId())
+            return -1;
+        return 0;
     }
 }
