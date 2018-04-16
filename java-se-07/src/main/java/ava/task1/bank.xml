@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bank>
+    <accounts>
+        <account>
+            <id>1</id>
+            <holdeer>John Doe</holdeer>
+            <initial-money>100</initial-money>
+        </account>
+        <account>
+            <id>2</id>
+            <holder>Bob Builder</holder>
+            <initial-money>700</initial-money>
+        </account>
+        <account>
+            <id>3</id>
+            <holder>Mary Jane</holder>
+            <initial-money>100</initial-money>
+        </account>
+    </accounts>
+    <transfers>
+        <transfer>
+            <acc-id-sender>1</acc-id-sender>
+            <acc-id-recipient>2</acc-id-recipient>
+            <money>200</money>
+        </transfer>
+        <transfer>
+            <acc-id-sender>2</acc-id-sender>
+            <acc-id-recipient>3</acc-id-recipient>
+            <money>500</money>
+        </transfer>
+        <transfer>
+            <acc-id-sender>3</acc-id-sender>
+            <acc-id-recipient>1</acc-id-recipient>
+            <money>350</money>
+        </transfer>
+    </transfers>
+</bank>
