@@ -29,8 +29,18 @@ public class Account implements Comparable<Account> {
         return money;
     }
 
-    public void setMoney(BigDecimal money) {
-        this.money = money;
+    public boolean withdraw(BigDecimal money){
+        if(this.money.compareTo(money) >= 0){
+            this.money = this.money.subtract(money);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void deposit(BigDecimal money){
+        this.money = this.money.add(money);
     }
 
     @Override
