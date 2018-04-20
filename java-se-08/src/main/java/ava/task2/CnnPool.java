@@ -20,16 +20,15 @@ import java.util.stream.IntStream;
 public class CnnPool implements Closeable {
 
     BlockingQueue<PooledConnection> cnnPool;
-    String urlToDB;
+    String urlToDB = "jdbc:h2:mem:library";
 
-    public CnnPool(int capacity, String urlToDB) {
+    public CnnPool(int capacity) {
         cnnPool = IntStream
                 .range(0, capacity)
                 .mapToObj(this::generateConnection)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toCollection(() -> new ArrayBlockingQueue<>(capacity)));
-        this.urlToDB = urlToDB;
     }
 
     public Connection getConnection() {
@@ -70,7 +69,7 @@ public class CnnPool implements Closeable {
         @Override
         public void close() {
             System.out.printf("[PUT CONNECTION - %s TO POOL]\n", id);
-            CnnPool.this.cnnPool.add(this);
+            CnnPool.this.cnnPool.offer(this);
         }
 
         void reallyClose() {
