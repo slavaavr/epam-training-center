@@ -5,14 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ava</groupId>
-    <artifactId>epam-training-center</artifactId>
+    <artifactId>java_school</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
-    <modules>
-        <module>java_school</module>
-        <module>java_lab</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.196</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.0</version>
+        </dependency>
+    </dependencies>
+
 
     <build>
         <plugins>
@@ -26,5 +34,5 @@
             </plugin>
         </plugins>
     </build>
-
+    
 </project>
